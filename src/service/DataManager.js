@@ -3,8 +3,8 @@ class DataManager {
         return JSON.parse(localStorage.getItem('leetcode-memo'));
     }
 
-    saveData() {
-
+    saveData(data) {
+        return localStorage.setItem("leetcode-memo", JSON.stringify(data));
     }
 }
 

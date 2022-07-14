@@ -14,6 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Chip from './Chip';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,17 +36,36 @@ const Item = (props) => {
       setExpanded(!expanded);
     };
 
+    const difficultyChips = (difficulty) => {
+      if (difficulty === "easy") {
+        return (<Chip color="green" label="Easy" />);
+      }
+      else if (difficulty === "medium") {
+        return (<Chip color="orange" label="Medium" />);
+      }
+      else if (difficulty === "hard") {
+        return (<Chip color="red" label="Hard" />);
+      }
+    }
+
     return (
       <Card >
       <CardHeader
+        avatar={difficultyChips(item.difficulty)}
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
         title={item.title}
+        titleTypographyProps={{ variant:'h6' }}
         subheader={item.dateTime}
       />
+      <CardContent>
+        {item.category.map((item, index) => {
+          return (<Chip label={item} key={index}/>)
+        })}
+      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
@@ -62,7 +82,16 @@ const Item = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            {item.note}
+            <h3>Note</h3>
+            {item.note.split("\n").map((str, i) => <p key={i}>{str}</p>)}
+          </Typography>
+          <Typography>
+            <h3>Personal difficulty</h3>
+            {difficultyChips(item.personalDifficulty)}
+          </Typography>
+          <Typography>
+            <h3>Time spent</h3>
+            {item.timeSpent} minutes
           </Typography>
         </CardContent>
       </Collapse>
