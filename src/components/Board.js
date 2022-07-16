@@ -1,4 +1,5 @@
 import React from 'react';
+import UUID from 'react-uuid';
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from '@mui/material/styles';
 import { AppBar, Box, Button, Grid } from "@material-ui/core";
@@ -125,6 +126,7 @@ const Board = () => {
         data = !data ? [] : data;
 
         data.push({
+            id: UUID(),
             title: title,
             dateTime: new Date().toLocaleString(),
             link: link,
@@ -132,7 +134,8 @@ const Board = () => {
             category: category,
             timeSpent: timeSpent,
             note: note,
-            personalDifficulty: personalDifficulty
+            personalDifficulty: personalDifficulty,
+            isFavourite: false
         });
 
         DataManager.saveData(data);
@@ -161,7 +164,7 @@ const Board = () => {
                     : data && data.map((item, index) => {
                         return (
                             <Grid item key={index}>
-                                <Item item={item} index={index} key={index}/>
+                                <Item item={item} key={index}/>
                             </Grid>
                         );
                 })}

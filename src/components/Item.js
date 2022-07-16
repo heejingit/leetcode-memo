@@ -14,7 +14,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
 import Chip from './Chip';
+import DataManager from '../service/DataManager';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,10 +38,20 @@ const Item = (props) => {
     const [expanded, setExpanded] = React.useState(false);
     const item = props.item;
     const index = props.index;
+    const [isFavourite, setFavourite] = React.useState(item.isFavourite);
+
+    const openInNewTab = url => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    };
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+
+    const handleFavouriteChange = () => {
+      setFavourite(!isFavourite);
+      DataManager.setFavourite(item.id, !isFavourite);
+    }
 
     const difficultyChips = (difficulty) => {
       if (difficulty === "easy") {
@@ -53,9 +70,10 @@ const Item = (props) => {
       <CardHeader
         avatar={difficultyChips(item.difficulty)}
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <div aria-label="settings">
+            <Button variant="text">Edit</Button>
+            <Button variant="text" onClick={e => DataManager.delete(item.id)}>Delete</Button>
+          </div>
         }
         title={item.title}
         titleTypographyProps={{ variant:'h6' }}
@@ -68,7 +86,7 @@ const Item = (props) => {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon color={isFavourite ? "error" : "disabled"} onClick={handleFavouriteChange} />
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -81,6 +99,10 @@ const Item = (props) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+        <Typography paragraph>
+            <h3>Link</h3>
+            <p onClick={() => openInNewTab(item.link)} style={{color: 'blue'}}>{item.link}</p>
+          </Typography>
           <Typography paragraph>
             <h3>Note</h3>
             {item.note.split("\n").map((str, i) => <p key={i}>{str}</p>)}
