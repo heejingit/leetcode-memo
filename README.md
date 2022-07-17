@@ -4,4 +4,4 @@ This project is to help Leetcoders to leave their note on each question that the
 
 ## Development Track
 
-Development process is updated on the Trello workspace: [https://trello.com/b/a9C83yqj/leetcode-memo-development](here)
+Development process is updated on the Trello workspace: [https://trello.com/b/a9C83yqj](here)
