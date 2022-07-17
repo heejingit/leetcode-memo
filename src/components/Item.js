@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -25,6 +25,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 
 import Chip from './Chip';
+import ItemForm from './ItemForm';
 import DataManager from '../service/DataManager';
 
 const ExpandMore = styled((props) => {
@@ -39,11 +40,14 @@ const ExpandMore = styled((props) => {
 }));
 
 const Item = (props) => {
-    const [expanded, setExpanded] = React.useState(false);
-    const item = props.item;
+    const [expanded, setExpanded] = useState(false);
+    const [item, setItem] = useState(props.item);
     const index = props.index;
-    const [isFavourite, setFavourite] = React.useState(item.isFavourite);
-    const [isVisible, setVisible] = React.useState(true);
+    const [isFavourite, setFavourite] = useState(item.isFavourite);
+    const [isVisible, setVisible] = useState(true);
+    const [formOpen, setFormOpen] = useState(false);
+
+    useEffect(() => setItem(props.item));
 
     const openInNewTab = url => {
       window.open(url, '_blank', 'noopener,noreferrer');
@@ -81,6 +85,10 @@ const Item = (props) => {
       });
     }
 
+    const handleEditItem = () => {
+      setFormOpen(!formOpen);
+    }
+
     const difficultyChips = (difficulty) => {
       if (difficulty === "easy") {
         return (<Chip color="green" label="Easy" />);
@@ -96,11 +104,13 @@ const Item = (props) => {
     return (
       (isVisible &&
         <Card >
+            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} />
+
             <CardHeader
               avatar={difficultyChips(item.difficulty)}
               action={
                 <div aria-label="settings">
-                  <Button variant="text">Edit</Button>
+                  <Button variant="text" onClick={handleEditItem}>Edit</Button>
                   <Button variant="text" onClick={handleDeleteItem}>Delete</Button>
                 </div>
               }
