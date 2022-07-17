@@ -7,6 +7,10 @@ class DataManager {
         return localStorage.setItem("leetcode-memo", JSON.stringify(data));
     }
 
+    deleteData() {
+        return localStorage.removeItem('leetcode-memo');
+    }
+
     setFavourite(id, status) {
         if (!id) return;
         return this.saveData(this.getData().map(item => {
@@ -20,14 +24,10 @@ class DataManager {
 
     delete(id) {
         if (!id) return;
-        console.log(id);
-        return this.saveData(this.getData().map((item, i) => {
-            let temp = Object.assign({}, item);
-            if (temp.id === id) {
-                delete temp[i];
-            }
-            return temp;
-        }));
+        let data = this.getData();
+        if (data.length == 1) return this.deleteData();
+        
+        return this.saveData(data.filter(item => item.id != id));
     }
 }
 
