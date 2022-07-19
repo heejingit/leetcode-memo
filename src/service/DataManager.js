@@ -22,7 +22,6 @@ class DataManager {
                 return temp;
             })
         }
-
         return this.setLocalStorage(data);
     }
 

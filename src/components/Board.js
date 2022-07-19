@@ -18,9 +18,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Board = () => {
     const classes = useStyles();
+    const [data, setData] = useState([]);
 
-    const data = !DataManager.getData() ? [] : DataManager.getData();
+    //const data = !DataManager.getData() ? [] : DataManager.getData();
     const [formOpen, setFormOpen] = useState(false);
+
+    useEffect(() => {
+        if (DataManager.getData()) setData(DataManager.getData());
+    },[])
 
     const handleClickOpen = () => {
         setFormOpen(!formOpen);

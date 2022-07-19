@@ -41,13 +41,33 @@ const ExpandMore = styled((props) => {
 
 const Item = (props) => {
     const [expanded, setExpanded] = useState(false);
-    const [item, setItem] = useState(props.item);
-    const index = props.index;
-    const [isFavourite, setFavourite] = useState(item.isFavourite);
+
+    const item = props.item;
+
+    const [title, setTitle] = useState("");
+    const [dateTime, setDateTime] = useState("");
+    const [link, setLink] = useState("");
+    const [difficulty, setDifficulty] = useState("easy");
+    const [timeSpent, setTimeSpent] = useState(0);
+    const [category, setCategory] = useState([]);
+    const [note, setNote] = useState("");
+    const [personalDifficulty, setPersonalDifficulty] = useState("easy");
+
+    const [isFavourite, setFavourite] = useState(false);
     const [isVisible, setVisible] = useState(true);
     const [formOpen, setFormOpen] = useState(false);
 
-    useEffect(() => setItem(props.item));
+    useEffect(() => {
+      setTitle(item.title)
+      setDateTime(item.dateTime)
+      setLink(item.link)
+      setDifficulty(item.difficulty)
+      setTimeSpent(item.timeSpent)
+      setCategory(item.category)
+      setNote(item.note)
+      setPersonalDifficulty(item.personalDifficulty)
+      setFavourite(item.isFavourite)
+    }, [item]);
 
     const openInNewTab = url => {
       window.open(url, '_blank', 'noopener,noreferrer');
@@ -89,6 +109,16 @@ const Item = (props) => {
       setFormOpen(!formOpen);
     }
 
+    const handleItemUpdate = (updatedItem) => {
+      setTitle(updatedItem.title)
+      setLink(updatedItem.link)
+      setDifficulty(updatedItem.difficulty)
+      setTimeSpent(updatedItem.timeSpent)
+      setCategory(updatedItem.category)
+      setNote(updatedItem.note)
+      setPersonalDifficulty(updatedItem.personalDifficulty)
+    }
+
     const difficultyChips = (difficulty) => {
       if (difficulty === "easy") {
         return (<Chip color="green" label="Easy" />);
@@ -104,23 +134,23 @@ const Item = (props) => {
     return (
       (isVisible &&
         <Card >
-            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} />
+            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} handleItemUpdate={handleItemUpdate} />
 
             <CardHeader
-              avatar={difficultyChips(item.difficulty)}
+              avatar={difficultyChips(difficulty)}
               action={
                 <div aria-label="settings">
                   <Button variant="text" onClick={handleEditItem}>Edit</Button>
                   <Button variant="text" onClick={handleDeleteItem}>Delete</Button>
                 </div>
               }
-              title={item.title}
+              title={title}
               titleTypographyProps={{ variant:'h6' }}
-              subheader={item.dateTime}
+              subheader={dateTime}
             />
 
             <CardContent>
-              {item.category.map((item, index) => {
+              {category.map((item, index) => {
                 return (<Chip label={item} key={index}/>)
               })}
             </CardContent>
@@ -144,19 +174,19 @@ const Item = (props) => {
               <CardContent>
                 <Typography paragraph>
                     <h3>Link</h3>
-                      <p onClick={() => openInNewTab(item.link)} style={{color: 'blue'}}>{item.link}</p>
+                      <p onClick={() => openInNewTab(link)} style={{color: 'blue'}}>{link}</p>
                   </Typography>
                   <Typography paragraph>
                     <h3>Note</h3>
-                    {item.note.split("\n").map((str, i) => <p key={i}>{str}</p>)}
+                    {note.split("\n").map((str, i) => <p key={i}>{str}</p>)}
                   </Typography>
                   <Typography>
                     <h3>Personal difficulty</h3>
-                    {difficultyChips(item.personalDifficulty)}
+                    {difficultyChips(personalDifficulty)}
                   </Typography>
                   <Typography>
                     <h3>Time spent</h3>
-                    {item.timeSpent} minutes
+                    {timeSpent} minutes
                   </Typography>
                 </CardContent>
             </Collapse>
