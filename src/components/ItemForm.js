@@ -98,7 +98,7 @@ const ItemForm = (props) => {
             setNote(props.item.note);
             setPersonalDifficulty(props.item.personalDifficulty);
         }       
-    }, [props])
+    }, [])
 
     const handleClickOk = () => {
         const obj = {
@@ -115,6 +115,9 @@ const ItemForm = (props) => {
         }
 
         DataManager.saveData(isNew, obj, props.data);
+
+        if (!isNew) props.handleItemUpdate(obj);
+
         clearData();
     }
 
