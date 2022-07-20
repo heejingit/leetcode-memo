@@ -35,7 +35,7 @@ class DataManager {
 
     setFavourite(id, status) {
         if (!id) return;
-        return this.saveData(this.getData().map(item => {
+        return this.setLocalStorage(this.getData().map(item => {
             let temp = Object.assign({}, item);
             if (temp.id === id) {
                 temp.isFavourite = status;
