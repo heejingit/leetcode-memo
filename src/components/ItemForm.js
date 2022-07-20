@@ -88,6 +88,12 @@ const ItemForm = (props) => {
     const [note, setNote] = useState("");
     const [personalDifficulty, setPersonalDifficulty] = useState("easy");
 
+    // errors
+    const [titleErr, setTitleErr] = useState(false)
+    const [linkErr, setLinkErr] = useState(false)
+    const [noteErr, setNoteErr] = useState(false)
+    const [errorMsg, setErrorMsg] = useState()
+
     useEffect(() => {
         if (props.item) {
             setTitle(props.item.title);
@@ -101,24 +107,28 @@ const ItemForm = (props) => {
     }, [])
 
     const handleClickOk = () => {
-        const obj = {
-            id: props.item ? props.item.id : UUID(),
-            title: title,
-            dateTime: new Date().toLocaleString(),
-            link: link,
-            difficulty: difficulty,
-            category: category,
-            timeSpent: timeSpent,
-            note: note,
-            personalDifficulty: personalDifficulty,
-            isFavourite: false
+        if (isValidated()) {
+            const obj = {
+                id: props.item ? props.item.id : UUID(),
+                title: title,
+                dateTime: new Date().toLocaleString(),
+                link: link,
+                difficulty: difficulty,
+                category: category,
+                timeSpent: timeSpent,
+                note: note,
+                personalDifficulty: personalDifficulty,
+                isFavourite: false
+            }
+    
+            DataManager.saveData(isNew, obj, props.data);
+    
+            if (!isNew) props.handleItemUpdate(obj);
+    
+            clearData();
+        } else {
+            setErrorMsg("Please fill the required fields.")
         }
-
-        DataManager.saveData(isNew, obj, props.data);
-
-        if (!isNew) props.handleItemUpdate(obj);
-
-        clearData();
     }
 
     const clearData = () => {
@@ -137,6 +147,25 @@ const ItemForm = (props) => {
           typeof value === 'string' ? value.split(',') : value,
         );
     };
+
+    const isValidated = () => {
+        let isValid = true
+
+        if (!title || title === "") {
+            isValid = false
+            setTitleErr(true)
+        }
+        if (!link || link === "") {
+            isValid = false
+            setLinkErr(true)
+        }
+        if (!note || note === "") {
+            isValid = false
+            setNoteErr(true)
+        }
+
+        return isValid
+    }
 
     return (
         <Dialog
@@ -167,6 +196,9 @@ const ItemForm = (props) => {
                                 {isNew && <DialogContentText id="alert-dialog-slide-description">
                                     What did you grind? Let me know!<br />
                                 </DialogContentText>}
+                                {errorMsg && <DialogContentText id="alert-dialog-slide-description" style={{color: "red"}}>
+                                    {errorMsg}<br />
+                                </DialogContentText>}
                             </Grid>
 
                             <Grid item>
@@ -178,6 +210,7 @@ const ItemForm = (props) => {
                                     id="outlined-required"
                                     onChange={e => setTitle(e.target.value)}
                                     value={title}
+                                    error={titleErr}
                                 />
                             </Grid>
 
@@ -190,6 +223,7 @@ const ItemForm = (props) => {
                                     id="outlined-required"
                                     onChange={e => setLink(e.target.value)}
                                     value={link}
+                                    error={linkErr}
                                 />
                             </Grid>
 
@@ -263,6 +297,7 @@ const ItemForm = (props) => {
                                     value={note}
                                     onChange={e => setNote(e.target.value)}
                                     variant="filled"
+                                    error={noteErr}
                                 />
                             </Grid>
 
