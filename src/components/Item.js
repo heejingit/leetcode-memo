@@ -78,10 +78,8 @@ const Item = (props) => {
     };
 
     const handleFavouriteChange = () => {
-      if (window.confirm("test")) {
-        setFavourite(!isFavourite);
-        DataManager.setFavourite(item.id, !isFavourite);
-      }
+      setFavourite(!isFavourite);
+      DataManager.setFavourite(item.id, !isFavourite);
     }
 
     const handleDeleteItem = () => {
