@@ -132,6 +132,18 @@ const ItemForm = (props) => {
     }
 
     const clearData = () => {
+        setTitle("")
+        setLink("")
+        setDifficulty("easy")
+        setCategory([])
+        setTimeSpent(0)
+        setNote("")
+        setPersonalDifficulty("easy")
+        setErrorMsg()
+        setTitleErr(false)
+        setLinkErr(false)
+        setNoteErr(false)
+
         handleClose();
     }
 
