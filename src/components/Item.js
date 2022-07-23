@@ -122,7 +122,7 @@ const Item = (props) => {
     return (
       (isVisible &&
         <Card >
-            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} handleItemUpdate={handleItemUpdate} />
+            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} handleItemUpdate={handleItemUpdate} dataHandler={props.dataHandler} />
 
             <CardHeader
               avatar={difficultyChips(difficulty)}

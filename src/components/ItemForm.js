@@ -104,7 +104,7 @@ const ItemForm = (props) => {
             setNote(props.item.note);
             setPersonalDifficulty(props.item.personalDifficulty);
         }       
-    }, [])
+    }, [props.item])
 
     const handleClickOk = () => {
         if (isValidated()) {
@@ -121,11 +121,12 @@ const ItemForm = (props) => {
                 isFavourite: false
             }
     
-            DataManager.saveData(isNew, obj, props.data);
+            const savedData = DataManager.saveData(isNew, obj, props.data);
     
-            if (!isNew) props.handleItemUpdate(obj);
+            //if (!isNew) props.handleItemUpdate(obj);
     
             clearData();
+            props.dataHandler(savedData)
         } else {
             setErrorMsg("Please fill the required fields.")
         }

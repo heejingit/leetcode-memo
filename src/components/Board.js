@@ -4,7 +4,6 @@ import { Box, Button, Grid } from "@material-ui/core";
 
 import Item from './Item';
 import ItemForm from './ItemForm';
-import DataManager from '../service/DataManager';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,16 +15,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Board = () => {
+const Board = (props) => {
     const classes = useStyles();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(props.data)
 
-    //const data = !DataManager.getData() ? [] : DataManager.getData();
     const [formOpen, setFormOpen] = useState(false);
 
     useEffect(() => {
-        if (DataManager.getData()) setData(DataManager.getData());
-    },[])
+        setData(props.data)
+    },[props.data])
 
     const handleClickOpen = () => {
         setFormOpen(!formOpen);
@@ -40,10 +38,10 @@ const Board = () => {
                     <Button variant="contained" size="large" color="primary" onClick={handleClickOpen}>Add a new item</Button>
                 </Grid>
                 {!data ? <Grid item><h3>No data available. Please add a new item.</h3></Grid>
-                    : data && data.map((item, index) => {
+                    : data.map((item, index) => {
                         return (
                             <Grid item key={index}>
-                                <Item item={item} key={index} data={data}/>
+                                <Item item={item} key={index} data={data} />
                             </Grid>
                         );
                 })}

@@ -1,6 +1,8 @@
 class DataManager {
     getData() {
-        return JSON.parse(localStorage.getItem('leetcode-memo'));
+        const data = JSON.parse(localStorage.getItem('leetcode-memo'));
+        if (!data) return []
+        return data;
     }
 
     saveData(isNew, item, data) {
@@ -47,9 +49,15 @@ class DataManager {
     delete(id) {
         if (!id) return;
         let data = this.getData();
-        if (data.length == 1) return this.deleteData();
+        if (data.length === 1) return this.deleteData();
         
-        return this.setLocalStorage(data.filter(item => item.id != id));
+        return this.setLocalStorage(data.filter(item => item.id !== id));
+    }
+
+    test() {
+        const data = this.getData()
+        
+        return data.length;
     }
 }
 
