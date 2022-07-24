@@ -26,12 +26,13 @@ const Board = (props) => {
     },[props.data])
 
     const handleClickOpen = () => {
+        props.handler()
         setFormOpen(!formOpen);
     };
 
     return (
         <Box className={classes.root}>
-             <ItemForm isNew={true} open={formOpen} handleCloseDialog={() => setFormOpen(false)} data={data} />
+             <ItemForm isNew={true} open={formOpen} handleCloseDialog={() => setFormOpen(false)} data={data} handler={props.handler}/>
 
             <Grid container direction={"column"} spacing={5}>
                 <Grid item>
@@ -41,7 +42,7 @@ const Board = (props) => {
                     : data.map((item, index) => {
                         return (
                             <Grid item key={index}>
-                                <Item item={item} key={index} data={data} />
+                                <Item item={item} key={index} data={data} handler={props.handler} />
                             </Grid>
                         );
                 })}
