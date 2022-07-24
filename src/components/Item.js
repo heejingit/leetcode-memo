@@ -83,6 +83,7 @@ const Item = (props) => {
               DataManager.delete(item.id);
               setVisible(false);
               alert('The item has been successfully deleted.')
+              props.handler()
             }
           },
           {
@@ -95,16 +96,6 @@ const Item = (props) => {
 
     const handleEditItem = () => {
       setFormOpen(!formOpen);
-    }
-
-    const handleItemUpdate = (updatedItem) => {
-      setTitle(updatedItem.title)
-      setLink(updatedItem.link)
-      setDifficulty(updatedItem.difficulty)
-      setTimeSpent(updatedItem.timeSpent)
-      setCategory(updatedItem.category)
-      setNote(updatedItem.note)
-      setPersonalDifficulty(updatedItem.personalDifficulty)
     }
 
     const difficultyChips = (difficulty) => {
@@ -122,7 +113,7 @@ const Item = (props) => {
     return (
       (isVisible &&
         <Card >
-            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} handleItemUpdate={handleItemUpdate} dataHandler={props.dataHandler} />
+            <ItemForm isNew={false} open={formOpen} item={item} handleCloseDialog={() => setFormOpen(false)} data={props.data} handler={props.handler} />
 
             <CardHeader
               avatar={difficultyChips(difficulty)}

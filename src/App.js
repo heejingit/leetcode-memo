@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 import './App.css';
@@ -10,14 +10,14 @@ import DataManager from "./service/DataManager"
 function App() {
   const [data, setData] = useState(DataManager.getData());
 
-  useEffect(() => {
-    setData(DataManager.getData())
-  }, [data])
+  const dataHandler = () => {
+    setData(DataManager.getData());
+  }
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        <Board data={data} />
+        <Board data={data} handler={dataHandler}/>
       </Grid>
       <Grid item xs={2}>
         <Sidebar data={data} />

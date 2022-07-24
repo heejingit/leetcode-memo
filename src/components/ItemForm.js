@@ -121,12 +121,10 @@ const ItemForm = (props) => {
                 isFavourite: false
             }
     
-            const savedData = DataManager.saveData(isNew, obj, props.data);
-    
-            //if (!isNew) props.handleItemUpdate(obj);
-    
+            DataManager.saveData(isNew, obj, props.data);
+        
+            props.handler()
             clearData();
-            props.dataHandler(savedData)
         } else {
             setErrorMsg("Please fill the required fields.")
         }
