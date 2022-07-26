@@ -19,29 +19,35 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
     const classes = useStyles()
     const [data, setData] = useState(props.data)
-    const [category, setCategory] = useState(props.data['category'])
-    const [map, setMap] = useState({})
+    const [map, setMap] = useState(props.category)
 
     useEffect(() => {
-      console.log(data)
       setData(props.data)
     },[props.data])
 
+    useEffect(() => {
+      setMap(props.category)
+    },[props.category])
+
     return (
         <AppBar position="sticky" className={classes.root}>
-          <div key={props.data}>
-          {props.data.length}
-          </div>
             {(data && map) ?
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
                 {Object.keys(map).map((key, i) => {
-                  console.log(key)
+                  const value = `${key} x${map[key]}`
                   return (
-                    <Chip key={i} label={map[key]} />
+                    <Chip key={i} label={value} />
                   )
                 })}
               </Box>
             : <h5>No data available. Please add a new item.</h5>}
+
+            <p>Total solved questions: </p>
+            <p>Average time spent: </p>
+            <p>Streak: </p>
+            <p>Weakest topic: </p>
+            <p>Strongest topic: </p>
+            <p>Topics you've never tried: </p>
         </AppBar>
     );
 }
