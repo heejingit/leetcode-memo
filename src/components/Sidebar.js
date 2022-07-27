@@ -42,7 +42,7 @@ const Sidebar = (props) => {
               </Box>
             : <h5>No data available. Please add a new item.</h5>}
 
-            <p>Total solved questions: </p>
+            <p>Total solved questions: {data.length}</p>
             <p>Average time spent: </p>
             <p>Streak: </p>
             <p>Weakest topic: </p>
