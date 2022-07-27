@@ -9,30 +9,37 @@ import DataManager from "./service/DataManager"
 
 function App() {
   const [data, setData] = useState(DataManager.getData());
-  const [map, setMap] = useState({})
+  const [rightSideData, setRightSideData] = useState({})
 
   useEffect(() => {
-    setMap(categoryMapper())
+    setRightSideData(rightSideDataWatcher())
   }, [])
 
   const dataHandler = () => {
     setData(DataManager.getData());
-    setMap(categoryMapper())
+    setRightSideData(rightSideDataWatcher())
   }
 
-  const categoryMapper = () => {
+  const rightSideDataWatcher = () => {
     let dict = {}
+    let averageTime = 0
+    let category = {}
     if (data) {
       data.map((item, i) => {
+        averageTime += item.timeSpent
+
         item.category.map((c, j) => {
-          if (!dict[c]) {
-            dict[c] = 1
+          if (!category[c]) {
+            category[c] = 1
           } else {
-            dict[c] += 1
+            category[c] += 1
           }
         })
       })
     }
+    dict.total = data.length
+    dict.averageTime = averageTime / data.length
+    dict.category = category
     return dict
   }
 
@@ -42,7 +49,7 @@ function App() {
         <Board data={data} handler={dataHandler}/>
       </Grid>
       <Grid item xs={2}>
-        <Sidebar data={data} category={map} />
+        <Sidebar data={data} rightSideData={rightSideData} />
       </Grid>
     </Grid>
   );

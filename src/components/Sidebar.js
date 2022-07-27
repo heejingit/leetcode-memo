@@ -19,22 +19,22 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
     const classes = useStyles()
     const [data, setData] = useState(props.data)
-    const [map, setMap] = useState(props.category)
+    const [rightSideData, setRightSideData] = useState(props.rightSideData)
 
     useEffect(() => {
       setData(props.data)
     },[props.data])
 
     useEffect(() => {
-      setMap(props.category)
-    },[props.category])
+      setRightSideData(props.rightSideData)
+    },[props.rightSideData])
 
     return (
         <AppBar position="sticky" className={classes.root}>
-            {(data && map) ?
+            {(data && rightSideData['category']) ?
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                {Object.keys(map).map((key, i) => {
-                  const value = `${key} x${map[key]}`
+                {Object.keys(rightSideData['category']).map((key, i) => {
+                  const value = `${key} x${rightSideData['category'][key]}`
                   return (
                     <Chip key={i} label={value} />
                   )
@@ -42,7 +42,7 @@ const Sidebar = (props) => {
               </Box>
             : <h5>No data available. Please add a new item.</h5>}
 
-            <p>Total solved questions: {data.length}</p>
+            <p>Total solved questions: {rightSideData.total}</p>
             <p>Average time spent: </p>
             <p>Streak: </p>
             <p>Weakest topic: </p>
