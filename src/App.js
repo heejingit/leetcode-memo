@@ -36,9 +36,10 @@ function App() {
           }
         })
       })
+
+      dict.averageTime = averageTime / data.length
     }
     dict.total = data.length
-    dict.averageTime = averageTime / data.length
     dict.category = category
     return dict
   }
