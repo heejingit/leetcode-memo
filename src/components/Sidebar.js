@@ -21,6 +21,8 @@ const Sidebar = (props) => {
     const [data, setData] = useState(props.data)
     const [rightSideData, setRightSideData] = useState(props.rightSideData)
 
+    console.log(props.rightSideData)
+
     useEffect(() => {
       setData(props.data)
     },[props.data])
@@ -43,7 +45,7 @@ const Sidebar = (props) => {
             : <h5>No data available. Please add a new item.</h5>}
 
             <p>Total solved questions: {rightSideData.total}</p>
-            <p>Average time spent: </p>
+            <p>Average time spent: {rightSideData.averageTime}</p>
             <p>Streak: </p>
             <p>Weakest topic: </p>
             <p>Strongest topic: </p>
