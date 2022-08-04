@@ -41,7 +41,25 @@ function App() {
     }
     dict.total = data.length
     dict.category = category
+    dict.weakTopics = weakTopicsMapper(dict.averageTime)
+    dict.strongTopics = strongTopicsMapper(dict.averageTime)
     return dict
+  }
+
+  const weakTopicsMapper = (averageTime) => {
+    let arr = []
+    if (data) {
+      data.filter(item => item.timeSpent > averageTime).map(item => arr = [...arr, ...item.category])
+    }
+    return arr
+  }
+
+  const strongTopicsMapper = (averageTime) => {
+    let arr = []
+    if (data) {
+      data.filter(item => item.timeSpent <= averageTime).map(item => arr = [...arr, ...item.category])
+    }
+    return arr
   }
 
   return (
