@@ -46,9 +46,16 @@ const Sidebar = (props) => {
 
             <p>Total solved questions: {rightSideData.total}</p>
             <p>Average time spent: {rightSideData.averageTime}</p>
-            <p>Streak: </p>
-            <p>Weakest topic: </p>
-            <p>Strongest topic: </p>
+            <p>Weak topics:
+              {rightSideData['weakTopics'] &&
+                rightSideData['weakTopics'].map((item, i) => <Chip key={i} label={item} />)
+              }
+            </p>
+            <p>Strong topics: 
+              {rightSideData['strongTopics'] &&
+                rightSideData['strongTopics'].map((item, i) => <Chip key={i} label={item} />)
+              }
+            </p>
             <p>Topics you've never tried: </p>
         </AppBar>
     );
