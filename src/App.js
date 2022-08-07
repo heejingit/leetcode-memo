@@ -5,13 +5,15 @@ import './App.css';
 import Board from './components/Board';
 import Sidebar from './components/Sidebar';
 
+import { options } from "./category"
 import DataManager from "./service/DataManager"
 
 function App() {
-  const [data, setData] = useState(DataManager.getData());
+  const [data, setData] = useState([]);
   const [rightSideData, setRightSideData] = useState({})
 
   useEffect(() => {
+    setData(DataManager.getData())
     setRightSideData(rightSideDataWatcher())
   }, [])
 
@@ -43,6 +45,8 @@ function App() {
     dict.category = category
     dict.weakTopics = weakTopicsMapper(dict.averageTime)
     dict.strongTopics = strongTopicsMapper(dict.averageTime)
+    dict.neverTriedTopics = options.filter(item => ![...dict.weakTopics, ...dict.strongTopics].includes(item))
+
     return dict
   }
 
@@ -65,10 +69,10 @@ function App() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        <Board data={data} handler={dataHandler}/>
+        <Board data={data} key={data} handler={dataHandler}/>
       </Grid>
       <Grid item xs={2}>
-        <Sidebar data={data} rightSideData={rightSideData} />
+        <Sidebar data={data} key={rightSideData} rightSideData={rightSideData} />
       </Grid>
     </Grid>
   );

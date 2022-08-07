@@ -22,35 +22,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Chip from './Chip';
 
 import DataManager from '../service/DataManager';
-
-const options = [
-    "Array",
-    "String",
-    "Hash Table",
-    "Dynamic Programming",
-    "Math",
-    "Sorting",
-    "Depth-First Search",
-    "Breadth-First Search",
-    "Greedy",
-    "Database",
-    "Tree",
-    "Binary Search",
-    "Matrix",
-    "Binary Tree",
-    "Two Pointers",
-    "Bit Manipulation",
-    "Stack",
-    "Design",
-    "Heap (Priority Queue",
-    "Graph",
-    "Simulation",
-    "Backtracking",
-    "Prefix Sum",
-    "Sliding Window",
-    "Trie",
-    "Linked List"
-];
+import { options } from '../category'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

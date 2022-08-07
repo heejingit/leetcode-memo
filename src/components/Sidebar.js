@@ -31,6 +31,12 @@ const Sidebar = (props) => {
       setRightSideData(props.rightSideData)
     },[props.rightSideData])
 
+    const chips = (attribute) => {
+      return (
+        rightSideData[attribute] && rightSideData[attribute].length > 0 ? rightSideData[attribute].map((item, i) => <Chip key={i} label={item} />) : "None"
+      )
+    }
+
     return (
         <AppBar position="sticky" className={classes.root}>
             {(data && rightSideData['category']) ?
@@ -44,19 +50,13 @@ const Sidebar = (props) => {
               </Box>
             : <h5>No data available. Please add a new item.</h5>}
 
-            <p>Total solved questions: {rightSideData.total}</p>
-            <p>Average time spent: {rightSideData.averageTime}</p>
-            <p>Weak topics:
-              {rightSideData['weakTopics'] &&
-                rightSideData['weakTopics'].map((item, i) => <Chip key={i} label={item} />)
-              }
+            <p>Total solved questions: {rightSideData.total && rightSideData.total}</p>
+            <p>Average time spent: {rightSideData.averageTime && rightSideData.averageTime}</p>
+            <p>Weak topics: {chips('weakTopics')}
             </p>
-            <p>Strong topics: 
-              {rightSideData['strongTopics'] &&
-                rightSideData['strongTopics'].map((item, i) => <Chip key={i} label={item} />)
-              }
+            <p>Strong topics: {chips('strongTopics')}
             </p>
-            <p>Topics you've never tried: </p>
+            <p>Topics you've never tried: {chips('neverTriedTopics')}</p>
         </AppBar>
     );
 }
